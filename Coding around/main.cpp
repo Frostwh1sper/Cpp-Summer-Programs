@@ -10,6 +10,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <string>
 #include <ctime>
 using namespace std;
 
@@ -19,6 +20,7 @@ int SIZE=100;
 //Function prototypes
 void prntman(int);
 void pickwrd(string &);
+void checkGuess(int &,string,char,char [],char []);
 
 //Begin Execution
 int main(int argc, char** argv) {
@@ -29,6 +31,7 @@ int main(int argc, char** argv) {
     //Declare and initialize variables
     string word;
     int wrong;
+    char guess;
     char cont;
     bool game=true;
     
@@ -36,17 +39,81 @@ int main(int argc, char** argv) {
         wrong=0;
         //Pick random word
         pickwrd(word);
+        
+        //Assign values to temporary word
+        char temp[word.size()];
+        for(int i=0; i<word.size(); i++){
+            temp[i]='_';
+        }
+        
+        //Create array for tracking guesses
+        char guesses[26];
+        
+        //Print hangman
+        prntman(wrong);
+        
+        //Print word
+        for(int i=0; i<word.size(); i++){
+            cout << temp[i] << " ";
+        }
+        cout << endl << endl;
         do{
+            game=false;
+            
+            
+            //User guesses
+            cout << "Guess your letter: ";
+            cin >> guess;
+            cout << string(50,'\n');
+            
+            //Check guess against word
+            checkGuess(wrong,word,guess,temp,guesses);
+            
+            //End game
+            for(int i=0; i<word.size(); i++){
+                if(word[i]!=temp[i]) game=true;
+            }
+            if(!game){
+                cout << "Well played!!" << endl;
+            }
+            if(wrong==6){
+                cout << "You've run out of guesses, nice try! The word was: " << word << endl;
+                game=false;
+            }
             //Print hangman
             prntman(wrong);
-            wrong++;
-        }while(wrong<=6);
+            
+            //Print word
+            for(int i=0; i<word.size(); i++){
+                cout << temp[i] << " ";
+            }
+            cout << "     Past guesses: ";
+            for(int i=0; i<wrong; i++){
+                cout << guesses[i] << " ";
+            }
+            cout << endl << endl;
+            
+        }while(game);
         cout << "Would you like to play again? (y/n) ";
         cin >> cont;
     }while(cont=='y');
     
     //Finish him!!
     return 0;
+}
+
+void checkGuess(int &wrong, string word, char guess, char temp[], char guesses[]){
+    bool miss=true;
+    for(int i=0; i<word.size(); i++){
+        if(word[i]==guess){
+            temp[i]=word[i];
+            miss=false;
+        }
+    }
+    if(miss){
+        guesses[wrong]=guess;
+        wrong++;
+    }
 }
 
 void prntman(int wrong){
