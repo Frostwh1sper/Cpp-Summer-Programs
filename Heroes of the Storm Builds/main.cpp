@@ -50,11 +50,9 @@ void SgtHammer();
 
 //Begin Execution
 int main(int argc, char** argv) {
-    
     //Declare and initialize variables
     bool run=true;
         heroMenu1();
-    
     //Finish him!!
     return 0;
 }
@@ -379,7 +377,7 @@ void Murky(){
             "*                                        *" << endl <<
             "*  Murky Talent Builds                   *" << endl <<
             "*                                        *" << endl <<
-            "*  1) Hero and Tower Harrass             *" << endl <<
+            "*  1) Hero and Tower Harass              *" << endl <<
             "*                                        *" << endl <<
             "*                                        *" << endl <<
             "*                                        *" << endl <<
